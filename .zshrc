@@ -19,7 +19,7 @@ source $ZSH/oh-my-zsh.sh
 # export PATH="$HOME/.rbenv/bin:$PATH"
 # eval "$(rbenv init -)"
 
-# export GOPATH=$HOME/.go
+# export GOPATH=$HOME/dev
 # export PATH="$GOPATH/bin:$PATH"
 # export PATH=$PATH:$HOME/.gvm/bin
 # export PATH=$PATH:/usr/local/go/bin
@@ -33,3 +33,6 @@ source $ZSH/oh-my-zsh.sh
 # [ -f /Users/mtajitsu/.travis/travis.sh ] && source /Users/mtajitsu/.travis/travis.sh
 
 ulimit -n 65536
+alias gcd='$(ghq root)/$(ghq list | peco)'
+alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+
