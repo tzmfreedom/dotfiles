@@ -36,3 +36,10 @@ ulimit -n 65536
 alias gcd='$(ghq root)/$(ghq list | peco)'
 alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
+function login_sf() {
+  username=$(lpass show --username $1)
+  password=$(lpass show --password $1)
+  url=$(lpass show --url $1)
+  /usr/bin/open -a "/Applications/Google Chrome.app" "${url}/?un=${username}&pw=${password}"
+} 
+
