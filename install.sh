@@ -16,4 +16,10 @@ source /usr/local/bin/virtualenvwrapper.sh
 git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+for f in .??*
+do
+    [[ "$f" == ".git" ]] && continue
+    [[ "$f" == ".DS_Store" ]] && continue
+
+    ln -s -b $f ~/$f
+done
