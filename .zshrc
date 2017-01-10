@@ -20,7 +20,7 @@
 ulimit -n 65536
 alias gcd='$(ghq root)/$(ghq list | peco)'
 alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
-alias pass="lpass ls | peco | awk '{ print $1 }' | sed -e 's/(none)\///g' | xargs lpass show --password | pbcopy"
+alias pass="lpass ls | peco | sed -E 's/(.+)\[id\:(.*)$/\1/g' | sed -e 's/(none)\///g' | xargs lpass show --password | pbcopy"
 
 function login_sf() {
   username=$(lpass show --username $1)
