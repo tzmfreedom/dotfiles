@@ -24,6 +24,7 @@ alias pass="lpass ls | peco | sed -E 's/(.+)\[id\:(.*)$/\1/g' | sed -e 's/(none)
 alias decode_uri='nkf -w --url-input'
 alias encode_uri='nkf -WwMQ | tr = %'
 alias speco='cd ${SPEC_BASE}; file=$(find ${SPEC_BASE}/spec/ -type f | grep spec.rb | peco); echo "bundle exec rspec ${file}"; bin/rspec ${file}'
+alias history_all='history 1'
 
 function login_sf() {
   username=$(lpass show --username $1)
