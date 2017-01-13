@@ -32,3 +32,11 @@ function login_sf() {
   url=$(lpass show --url $1)
   /usr/bin/open -a "/Applications/Google Chrome.app" "${url}/?un=${username}&pw=${password}"
 }
+
+function diff_stdin() {
+  echo "input file1: if you want to end your input, press Ctrl+D"
+  diff1=$(cat)
+  echo "input file2: if you want to end your input, press Ctrl+D"
+  diff2=$(cat)
+  diff =(echo $diff1) =(echo $diff2)
+}
