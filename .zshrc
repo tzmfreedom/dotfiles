@@ -18,13 +18,14 @@
 # [ -f /Users/mtajitsu/.travis/travis.sh ] && source /Users/mtajitsu/.travis/travis.sh
 
 ulimit -n 65536
-alias gcd='$(ghq root)/$(ghq list | peco)'
+
 alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 alias pass="lpass ls | peco | sed -E 's/(.+)\[id\:(.*)$/\1/g' | sed -e 's/(none)\///g' | xargs lpass show --password | pbcopy"
 alias decode_uri='nkf -w --url-input'
 alias encode_uri='nkf -WwMQ | tr = %'
-alias speco='cd ${SPEC_BASE}; file=$(find ${SPEC_BASE}/spec/ -type f | grep spec.rb | peco); echo "bundle exec rspec ${file}"; bin/rspec ${file}'
 alias history_all='history 1'
+alias gist_cat='gist -r $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
+alias gist_copy='gist -P $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
 
 function login_sf() {
   username=$(lpass show --username $1)
@@ -40,3 +41,22 @@ function diff_stdin() {
   diff2=$(cat)
   diff =(echo $diff1) =(echo $diff2)
 }
+
+function gcd() {
+  cd $(ghq root)/$(ghq list | peco --query $1)
+}
+
+function search() {
+  BUFFER=$(history -n 1 | peco --query ${1:-${LBUFFER}})
+  CUSOR=${#BUFFER}
+}
+
+function speco() {
+  file=$(find spec/ -type f | grep spec.rb | peco --query ${1:-$LBUFFER})
+  echo "bundle exec rspec ${file}"
+  bin/rspec ${file}
+  zle reset-prompt
+}
+
+# zle -N fuga
+# bindkey '^Z' fuga
