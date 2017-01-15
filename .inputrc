@@ -1,0 +1,12 @@
+# 補間時大文字小文字無視
+set completion-ignore-case on
+# ベル無
+set bell-style none
+# 入力候補リストのディレクトリや実行可能ファイルに印をつける
+set visible-stats on
+
+# C-(n|p)でhistory-search
+"\C-i":history-search-backward
+"\C-n":history-search-forward
+"\e[A":history-search-backward
+"\e[B":history-search-forward
