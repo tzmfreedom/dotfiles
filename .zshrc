@@ -26,6 +26,7 @@ alias encode_uri='nkf -WwMQ | tr = %'
 alias history_all='history 1'
 alias gist_cat='gist -r $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
 alias gist_copy='gist -P $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
+alias gco='git checkout $(git branch | peco | sed -e "s/*//g")'
 
 function login_sf() {
   username=$(lpass show --username $1)
