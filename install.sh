@@ -16,6 +16,10 @@ source /usr/local/bin/virtualenvwrapper.sh
 git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
+brew update
+brew install ack pt tig mycli
+gem install gist
+
 for f in .??*
 do
     [[ "$f" == ".git" ]] && continue
