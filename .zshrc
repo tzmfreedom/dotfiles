@@ -28,6 +28,11 @@ alias gist_cat='gist -r $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed 
 alias gist_copy='gist -P $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
 alias gco='git checkout $(git branch | peco | sed -e "s/*//g")'
 
+# for macOS
+if type "gdate" > /dev/null 2>&1; then
+  alias date='gdate'
+fi
+
 function login_sf() {
   username=$(lpass show --username $1)
   password=$(lpass show --password $1)
