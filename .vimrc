@@ -23,7 +23,6 @@ set wrapscan
 set gdefault
 
 set mouse=a
-" set iminsert=2
 set history=10000
 
 set visualbell t_vb=
@@ -55,19 +54,23 @@ if has('vim_starting')
  "
  
 " ファイルをtree表示してくれる
-NeoBundle 'scrooloose/nerdtree'
-
-NeoBundle 'tpope/vim-rails'
-
-NeoBundle 'tpope/vim-endwise'
-
-
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'marcus/rsense'
-
-NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/neocomplcache-rsense.vim'
-
+  NeoBundle 'scrooloose/nerdtree'
+  
+  NeoBundle 'tpope/vim-rails'
+  
+  NeoBundle 'tpope/vim-endwise'
+  
+  
+  NeoBundle 'Shougo/neocomplete.vim'
+  NeoBundle 'marcus/rsense'
+  
+  NeoBundle 'Shougo/neocomplcache.vim'
+  NeoBundle 'Shougo/neocomplcache-rsense.vim'
+  
+  NeoBundle 'tpope/vim-surround'
+  
+  NeoBundle 'kakkyz81/evervim'
+  
  call neobundle#end()
 
  " Required:
@@ -100,7 +103,7 @@ let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
 
 if !exists('g:neocomplcache_omni_patterns')
-            let g:neocomplcache_omni_patterns = {}
+  let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
