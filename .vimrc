@@ -111,3 +111,10 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 "rsenseのインストールフォルダがデフォルトと異なるので設定
 let g:rsenseHome = expand("/Users/mtajitsu/.rbenv/shims/rsense")
 let g:rsenseUseOmniFunc = 1
+
+
+if !exists('g:loaded_matchit')
+  runtime macros/matchit.vim
+endif
+
+
