@@ -8,12 +8,14 @@ set list
 set listchars=tab:▸\ ,eol:↲,extends:❯,precedes:❮
 
 " set cursorcolumn
-
+set backspace=2
 set confirm
 set hidden
 set autoread
 set nobackup
 set noswapfile
+
+set whichwrap=b,s,h,l,<,>,[,]
 
 set hlsearch 
 set incsearch
