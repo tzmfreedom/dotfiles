@@ -32,6 +32,11 @@ set noerrorbells
 
 set clipboard+=unnamed
 
+nnoremap <Leader>l :EvervimNotebookList<CR>
+nnoremap <Leader>s :EvervimSearchByQuery<Space>
+nnoremap <Leader>c :EvervimCreateNote<CR>
+nnoremap <Leader>t :EvervimListTags<CR>
+
 if has('vim_starting')
    set nocompatible               " Be iMproved
 
