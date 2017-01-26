@@ -77,7 +77,8 @@ if has('vim_starting')
   NeoBundle 'tpope/vim-surround'
   
   NeoBundle 'kakkyz81/evervim'
-  
+
+  NeoBundle 'kannokanno/previm'
  call neobundle#end()
 
  " Required:
@@ -124,4 +125,4 @@ if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
 endif
 
-
+let g:previm_open_cmd = 'open -a "Google Chrome"'
