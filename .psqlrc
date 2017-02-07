@@ -1,0 +1,5 @@
+\set PROMPT1 '%m %n@%/%# '
+\set VERBOSITY verbose
+\pset null 'NULL'        ← MysqlぽくNULLって出るようにした
+\pset pager
+\x auto  
