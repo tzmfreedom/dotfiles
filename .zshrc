@@ -67,3 +67,6 @@ function speco() {
 
 # zle -N fuga
 # bindkey '^Z' fuga
+
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
