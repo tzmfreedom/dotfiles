@@ -1,0 +1,11 @@
+split-window -d -h
+select-pane -L
+split-window -d
+select-pane -R
+split-window -d
+
+new-window -n local
+split-window -d -h
+select-pane -R
+split-window -d
+

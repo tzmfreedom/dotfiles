@@ -82,3 +82,5 @@ function row2col_func() {
 }
 
 alias row2col="cat | tr '\n' ',' | sed -e 's/.$//g'"
+alias tmux_new='tmux new-session \; source-file ~/.tmux/new-session'
+
