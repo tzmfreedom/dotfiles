@@ -71,7 +71,7 @@ function speco() {
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
 
-function row2col() {
+function row2col_func() {
   echo "please input row data and Ctrl+D to end your input"
   str=""
   while read line
@@ -80,3 +80,5 @@ function row2col() {
   done
   print ${str:1}
 }
+
+alias row2col="cat | tr '\n' ',' | sed -e 's/.$//g'"
