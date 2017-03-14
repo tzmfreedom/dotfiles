@@ -31,5 +31,26 @@ end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
   hs.reload()
 end)
+
+
+hs.hotkey.bind({"alt"}, "J", function()
+  hs.application.launchOrFocus("IntelliJ IDEA 15")
+end)
+
+hs.hotkey.bind({"alt"}, "E", function()
+  hs.application.launchOrFocus("Evernote")
+end)
+
+hs.hotkey.bind({"alt"}, "C", function()
+  hs.application.launchOrFocus("Google Chrome")
+end)
+
+hs.hotkey.bind({"alt"}, "L", function()
+  hs.application.launchOrFocus("LINE")
+end)
+
+hs.hotkey.bind({"alt"}, "S", function()
+  hs.application.launchOrFocus("Slack")
+end)
 hs.alert.show("Config loaded")
 
