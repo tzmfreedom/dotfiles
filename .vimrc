@@ -15,7 +15,7 @@ set autoread
 set nobackup
 set noswapfile
 
-set whichwrap=b,s,h,l,<,>,[,]
+set whichwrap=b,s,h,l,<,>,[,],~
 
 set hlsearch 
 set incsearch
@@ -37,6 +37,8 @@ nnoremap <Leader>s :EvervimSearchByQuery<Space>
 nnoremap <Leader>c :EvervimCreateNote<CR>
 nnoremap <Leader>t :EvervimListTags<CR>
 
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 if has('vim_starting')
    set nocompatible               " Be iMproved
 
@@ -77,7 +79,8 @@ if has('vim_starting')
   NeoBundle 'tpope/vim-surround'
   
   NeoBundle 'kakkyz81/evervim'
-  
+
+  NeoBundle 'kannokanno/previm'
  call neobundle#end()
 
  " Required:
@@ -124,4 +127,4 @@ if !exists('g:loaded_matchit')
   runtime macros/matchit.vim
 endif
 
-
+let g:previm_open_cmd = 'open -a "Google Chrome"'

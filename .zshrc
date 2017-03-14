@@ -67,3 +67,20 @@ function speco() {
 
 # zle -N fuga
 # bindkey '^Z' fuga
+
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+
+function row2col_func() {
+  echo "please input row data and Ctrl+D to end your input"
+  str=""
+  while read line
+  do
+    str=$(printf ${str}","${line})
+  done
+  print ${str:1}
+}
+
+alias row2col="cat | tr '\n' ',' | sed -e 's/.$//g'"
+alias tmux_new='tmux new-session \; source-file ~/.tmux/new-session'
+

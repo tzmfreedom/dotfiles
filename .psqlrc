@@ -1,0 +1,4 @@
+\set PROMPT1 '%m %n@%/%# '
+\set VERBOSITY verbose
+\pset pager
+\x auto  
