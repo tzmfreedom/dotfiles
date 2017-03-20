@@ -65,4 +65,9 @@ function row2col_func() {
 alias row2col="cat | tr '\n' ',' | sed -e 's/.$//g'"
 alias tmux_new='tmux new-session \; source-file ~/.tmux/new-session'
 
-if [ -f "~/.zshrc.personal" ]
+if [ -d "${HOME}/.zsh" ]; then
+  for file in $(ls ~/.zsh)
+  do
+    source ${HOME}/.zsh/${file}
+  done
+fi
