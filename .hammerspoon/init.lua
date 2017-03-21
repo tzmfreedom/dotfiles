@@ -3,7 +3,7 @@ local function keyCode(key, modifiers)
    return function()
       hs.eventtap.event.newKeyEvent(modifiers, string.lower(key), true):post()
       hs.timer.usleep(1000)
-      hs.eventtap.event.newKeyEvent(modifiers, string.lower(key), false):post()      
+      hs.eventtap.event.newKeyEvent(modifiers, string.lower(key), false):post()
    end
 end
 
@@ -21,7 +21,7 @@ end
 
 remapKey({ 'ctrl' }, ']',  keyCodeSet({
     keyCode('escape'),
-    keyCode(';', {'ctrl', 'shift'})
+    keyCode(";", {'ctrl', 'shift'}),
 }))
 
 hs.urlevent.bind("someAlert", function(eventName, params)
@@ -51,5 +51,10 @@ end)
 hs.hotkey.bind({"alt"}, "S", function()
   hs.application.launchOrFocus("Slack")
 end)
+
+hs.hotkey.bind({"alt"}, "M", function()
+  hs.application.launchOrFocus("MacVim")
+end)
+
 hs.alert.show("Config loaded")
 
