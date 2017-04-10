@@ -31,7 +31,7 @@ function diff_stdin() {
 }
 
 function gcd() {
-  cd $(ghq root)/$(ghq list | peco --query $1)
+  cd $(ghq root)/$(ghq list | peco --query "$1")
 }
 
 function search() {
@@ -64,7 +64,16 @@ function row2col_func() {
 
 alias row2col="cat | tr '\n' ',' | sed -e 's/.$//g'"
 alias tmux_new='tmux new-session \; source-file ~/.tmux/new-session'
+alias sha1='openssl dgst -sha1'
+alias sha256='openssl dgst -sha256'
+alias md5='openssl dgst -md5'
 
+function killer() {
+  pid=$(ps aux | grep "$1" | peco | awk '{ print $2 }')
+  kill ${pid}
+}
+
+source ~/.zsh/init.sh
 if [ -d "${HOME}/.zsh" ]; then
   for file in $(ls ~/.zsh)
   do
