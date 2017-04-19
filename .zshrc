@@ -9,10 +9,17 @@ alias gist_cat='gist -r $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed 
 alias gist_copy='gist -P $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
 alias gco='git checkout $(git branch | peco | sed -e "s/*//g")'
 alias templ='find ~/templates -type f | peco | xargs cat'
+alias gd='git diff HEAD~1..HEAD'
+alias edit_zshrc='vim ~/.zshrc'
+alias source_zshrc='source ~/.zshrc'
 
 # for macOS
 if type "gdate" > /dev/null 2>&1; then
   alias date='gdate'
+fi
+
+if type "trash-put" > /dev/null 2>&1; then
+  alias rm='trash-put'
 fi
 
 function login_sf() {
@@ -27,7 +34,7 @@ function diff_stdin() {
   diff1=$(cat)
   echo "input file2: if you want to end your input, press Ctrl+D"
   diff2=$(cat)
-  diff =(echo $diff1) =(echo $diff2)
+  diff -w =(echo $diff1) =(echo $diff2)
 }
 
 function gcd() {
@@ -63,6 +70,8 @@ function row2col_func() {
 }
 
 alias row2col="cat | tr '\n' ',' | sed -e 's/.$//g'"
+alias row2col_dq='echo \"$(cat | perl -pe "s/\n/\",\"/g" | sed -e "s/..$//g")\"'
+
 alias tmux_new='tmux new-session \; source-file ~/.tmux/new-session'
 alias sha1='openssl dgst -sha1'
 alias sha256='openssl dgst -sha256'
