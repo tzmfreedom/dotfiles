@@ -1,4 +1,8 @@
 ulimit -n 65536
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
 alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 alias pass="lpass ls | peco | sed -E 's/(.+)\[id\:(.*)$/\1/g' | sed -e 's/(none)\///g' | xargs lpass show --password | pbcopy"
@@ -20,6 +24,10 @@ fi
 
 if type "trash-put" > /dev/null 2>&1; then
   alias rm='trash-put'
+fi
+
+if type "gsed" > /dev/null 2>&1; then
+  alias sed='gsed'
 fi
 
 function login_sf() {
@@ -79,13 +87,21 @@ alias md5='openssl dgst -md5'
 
 function killer() {
   pid=$(ps aux | grep "$1" | peco | awk '{ print $2 }')
-  kill ${pid}
+  kill -9 ${pid}
 }
 
-source ~/.zsh/init.sh
 if [ -d "${HOME}/.zsh" ]; then
   for file in $(ls ~/.zsh)
   do
     source ${HOME}/.zsh/${file}
   done
 fi
+
+export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
+
+reload_completion() {
+  local f
+  f=(/usr/local/share/zsh/site-functions/*(.))
+  unfunction $f:t 2> /dev/null
+  autoload -U $f:t
+}
