@@ -16,6 +16,8 @@ alias templ='find ~/templates -type f | peco | xargs cat'
 alias gd='git diff HEAD~1..HEAD'
 alias edit_zshrc='vim ~/.zshrc'
 alias source_zshrc='source ~/.zshrc'
+alias untargz='tar zxf'
+alias targz='tar zcf'
 
 # for macOS
 if type "gdate" > /dev/null 2>&1; then
