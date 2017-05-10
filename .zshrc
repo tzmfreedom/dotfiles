@@ -69,12 +69,12 @@ function speco() {
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
 
-function row2col_func() {
+function row2col() {
   echo "please input row data and Ctrl+D to end your input"
   str=""
   while read line
   do
-    str=$(printf ${str}","${line})
+    str=$(printf ${str}"${1:-,}"${line})
   done
   print ${str:1}
 }
