@@ -69,12 +69,12 @@ function speco() {
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
 
-function row2col_func() {
+function row2col() {
   echo "please input row data and Ctrl+D to end your input"
   str=""
   while read line
   do
-    str=$(printf ${str}","${line})
+    str=$(printf ${str}"${1:-,}"${line})
   done
   print ${str:1}
 }
@@ -86,6 +86,8 @@ alias tmux_new='tmux new-session \; source-file ~/.tmux/new-session'
 alias sha1='openssl dgst -sha1'
 alias sha256='openssl dgst -sha256'
 alias md5='openssl dgst -md5'
+
+alias csv2redmine='tr "," "|" | sed -e "s/^/|/g" -e "s/$/|/g"'
 
 function killer() {
   pid=$(ps aux | grep "$1" | peco | awk '{ print $2 }')
