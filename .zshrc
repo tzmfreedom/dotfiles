@@ -110,3 +110,16 @@ reload_completion() {
   unfunction $f:t 2> /dev/null
   autoload -U $f:t
 }
+
+if type go > /dev/null 2>&1; then
+  export GOPATH="$HOME/dev"
+  export PATH="$GOPATH/bin:$PATH"
+fi
+
+# if alias gco > /dev/null; then
+#   unalias gco
+# fi
+# 
+# function gco() {
+#   git checkout $(git branch | peco --query ${1:-'""'})
+# }
