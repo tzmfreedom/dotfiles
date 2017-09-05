@@ -116,6 +116,13 @@ if type go > /dev/null 2>&1; then
   export PATH="$GOPATH/bin:$PATH"
 fi
 
+function server() {
+  port=${1:-"8000"}
+  if type ruby > /dev/null; then
+    ruby -rwebrick -e "WEBrick::HTTPServer.new(:DocumentRoot => './', :Port => $port).start"
+  fi
+}
+
 # if alias gco > /dev/null; then
 #   unalias gco
 # fi

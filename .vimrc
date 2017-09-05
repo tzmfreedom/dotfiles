@@ -81,6 +81,10 @@ if has('vim_starting')
   NeoBundle 'kakkyz81/evervim'
 
   NeoBundle 'kannokanno/previm'
+  
+  NeoBundle 'Shougo/unite.vim'
+
+  NeoBundle 'mattn/emmet-vim'
  call neobundle#end()
 
  " Required:
