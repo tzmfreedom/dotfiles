@@ -120,13 +120,17 @@ function server() {
   port=${1:-"8000"}
   if type ruby > /dev/null; then
     ruby -rwebrick -e "WEBrick::HTTPServer.new(:DocumentRoot => './', :Port => $port).start"
+    # ruby -run -e httpd . -p 5000
+  elif type python > /dev/null; then
+    version=$(python -V 2>&1)
+    if [[ $version =~ "^Python 2." ]]; then
+      python -m SimpleHTTPServer $port
+    elif [[ $version =~ "^Python 3." ]]; then
+      python -m http.server $port
+    fi
+  elif type php > /dev/null; then
+    php -S 0.0.0.0:$port
+  elif type http-server > /dev/null; then
+    http-server -p $port
   fi
 }
-
-# if alias gco > /dev/null; then
-#   unalias gco
-# fi
-# 
-# function gco() {
-#   git checkout $(git branch | peco --query ${1:-'""'})
-# }
