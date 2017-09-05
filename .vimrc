@@ -85,6 +85,9 @@ if has('vim_starting')
   NeoBundle 'Shougo/unite.vim'
 
   NeoBundle 'mattn/emmet-vim'
+
+  NeoBundle 'terryma/vim-multiple-cursors'
+
  call neobundle#end()
 
  " Required:
