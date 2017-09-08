@@ -134,3 +134,12 @@ function server() {
     http-server -p $port
   fi
 }
+
+function git_push() {
+  current_branch=$(git branch | grep "*" | awk '{ print $2 }')
+  BUFFER="git push origin ${current_branch}"
+  CURSOR=$#BUFFER
+}
+
+zle -N git_push git_push
+bindkey '^G^P' git_push
