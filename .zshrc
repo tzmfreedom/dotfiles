@@ -1,4 +1,4 @@
-ulimit -n 65536
+# ulimit -n 65536
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"

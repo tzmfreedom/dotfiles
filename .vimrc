@@ -66,36 +66,44 @@ if has('vim_starting')
   NeoBundle 'scrooloose/nerdtree'
   
   NeoBundle 'tpope/vim-rails'
-  
+  NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'tpope/vim-endwise'
   
-  
   NeoBundle 'Shougo/neocomplete.vim'
-  NeoBundle 'marcus/rsense'
-  
   NeoBundle 'Shougo/neocomplcache.vim'
   NeoBundle 'Shougo/neocomplcache-rsense.vim'
+  NeoBundle 'Shougo/unite.vim'
+  NeoBundle 'Shougo/neomru.vim'
   
+  NeoBundle 'marcus/rsense'
   NeoBundle 'tpope/vim-surround'
   
   NeoBundle 'kakkyz81/evervim'
 
   NeoBundle 'kannokanno/previm'
-  
-  NeoBundle 'Shougo/unite.vim'
 
   NeoBundle 'mattn/emmet-vim'
 
   NeoBundle 'terryma/vim-multiple-cursors'
+  
+  NeoBundle 'tomtom/tcomment_vim'
 
- call neobundle#end()
+  " NeoBundle 'nathanaelkane/vim-indent-guides'
 
- " Required:
- filetype plugin indent on
+  " ログファイルを色づけしてくれる
+  NeoBundle 'vim-scripts/AnsiEsc.vim'
 
- " If there are uninstalled bundles found on startup,
- " this will conveniently prompt you to install them.
- NeoBundleCheck
+  " 行末の半角スペースを可視化
+  NeoBundle 'bronson/vim-trailing-whitespace'
+
+  call neobundle#end()
+ 
+  " Required:
+  filetype plugin indent on
+ 
+  " If there are uninstalled bundles found on startup,
+  " this will conveniently prompt you to install them.
+  NeoBundleCheck
 
 set encoding=utf-8
 
@@ -138,3 +146,66 @@ if !exists('g:loaded_matchit')
 endif
 
 let g:previm_open_cmd = 'open -a "Google Chrome"'
+
+" http://blog.remora.cx/2010/12/vim-ref-with-unite.html
+""""""""""""""""""""""""""""""
+" Unit.vimの設定
+""""""""""""""""""""""""""""""
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+" バッファ一覧
+noremap <C-P> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-N> :Unite -buffer-name=file file<CR>
+" 最近使ったファイルの一覧
+noremap <C-Z> :Unite file_mru<CR>
+" sourcesを「今開いているファイルのディレクトリ」とする
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+""""""""""""""""""""""""""""""
+
+" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
+let g:indent_guides_enable_on_vim_startup = 1
+
+" https://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample
+""""""""""""""""""""""""""""""
+" 挿入モード時、ステータスラインの色を変更
+""""""""""""""""""""""""""""""
+let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
+
+if has('syntax')
+  augroup InsertHook
+    autocmd!
+    autocmd InsertEnter * call s:StatusLine('Enter')
+    autocmd InsertLeave * call s:StatusLine('Leave')
+  augroup END
+endif
+
+let s:slhlcmd = ''
+function! s:StatusLine(mode)
+  if a:mode == 'Enter'
+    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
+    silent exec g:hi_insert
+  else
+    highlight clear StatusLine
+    silent exec s:slhlcmd
+  endif
+endfunction
+
+function! s:GetHighlight(hi)
+  redir => hl
+  exec 'highlight '.a:hi
+  redir END
+  let hl = substitute(hl, '[\r\n]', '', 'g')
+  let hl = substitute(hl, 'xxx', '', '')
+  return hl
+endfunction
+""""""""""""""""""""""""""""""
