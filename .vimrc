@@ -138,3 +138,8 @@ if !exists('g:loaded_matchit')
 endif
 
 let g:previm_open_cmd = 'open -a "Google Chrome"'
+let g:user_emmet_settings = {
+      \ 'variables' : {
+      \  'lang' : "ja"
+      \ }
+      \}
