@@ -1,4 +1,4 @@
-ulimit -n 65536
+# ulimit -n 65536
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -18,6 +18,9 @@ alias edit_zshrc='vim ~/.zshrc'
 alias source_zshrc='source ~/.zshrc'
 alias untargz='tar zxf'
 alias targz='tar zcf'
+alias migrate_down='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version'
+alias migrate_up='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:up VERSION=$version'
+alias migrate_apply='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version; bin/rake db:migrate:up VERSION=$version'
 
 # for macOS
 if type "gdate" > /dev/null 2>&1; then
@@ -142,3 +145,12 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
+
+function git_push() {
+  current_branch=$(git branch | grep "*" | awk '{ print $2 }')
+  BUFFER="git push origin ${current_branch}"
+  CURSOR=$#BUFFER
+}
+
+zle -N git_push git_push
+bindkey '^G^P' git_push
