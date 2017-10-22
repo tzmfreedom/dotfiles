@@ -21,6 +21,7 @@ alias targz='tar zcf'
 alias migrate_down='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version'
 alias migrate_up='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:up VERSION=$version'
 alias migrate_apply='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version; bin/rake db:migrate:up VERSION=$version'
+alias be='bundle exec'
 
 # for macOS
 if type "gdate" > /dev/null 2>&1; then
@@ -60,11 +61,17 @@ function search() {
 }
 
 function speco() {
-  file=$(find spec/ -type f | grep spec.rb | peco --query ${1:-$LBUFFER})
+  file=$(find spec -type f | grep spec.rb | peco --query "${1:-$LBUFFER}")
   echo "bundle exec rspec ${file}"
-  bin/rspec ${file}
+  bundle exec rspec ${file}
   zle reset-prompt
 }
+
+function respeco() {
+  echo "bundle exec rspec ${file}"
+  bundle exec rspec ${file}
+}
+
 
 # zle -N fuga
 # bindkey '^Z' fuga
@@ -154,3 +161,5 @@ function git_push() {
 
 zle -N git_push git_push
 bindkey '^G^P' git_push
+
+export PATH=/usr/local/opt/openssl/bin:$PATH
