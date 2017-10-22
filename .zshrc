@@ -163,3 +163,9 @@ zle -N git_push git_push
 bindkey '^G^P' git_push
 
 export PATH=/usr/local/opt/openssl/bin:$PATH
+
+autoload -Uz colors
+colors
+
+PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%{${fg[cyan]}%}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)%{${fg[magenta]}%} [%T]%{${reset_color}%}${editor_info[keymap]} '
+export LSCOLORS=cxfxcxdxbxegedabagacad
