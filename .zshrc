@@ -21,6 +21,7 @@ alias targz='tar zcf'
 alias migrate_down='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version'
 alias migrate_up='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:up VERSION=$version'
 alias migrate_apply='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version; bin/rake db:migrate:up VERSION=$version'
+alias hb='hub browse'
 
 # for macOS
 if type "gdate" > /dev/null 2>&1; then
@@ -120,6 +121,7 @@ if type go > /dev/null 2>&1; then
 fi
 
 function server() {
+  op http://localhost:8000
   port=${1:-"8000"}
   if type ruby > /dev/null; then
     ruby -rwebrick -e "WEBrick::HTTPServer.new(:DocumentRoot => './', :Port => $port).start"
@@ -160,3 +162,9 @@ colors
 
 PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%{${fg[cyan]}%}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)%{${fg[magenta]}%} [%T]%{${reset_color}%}${editor_info[keymap]} '
 export LSCOLORS=cxfxcxdxbxegedabagacad
+eval "$(direnv hook zsh)"
+
+# added by travis gem
+[ -f /Users/m-tajitsu/.travis/travis.sh ] && source /Users/m-tajitsu/.travis/travis.sh
+
+alias op='/usr/bin/open -a "/Applications/Google Chrome.app"'
