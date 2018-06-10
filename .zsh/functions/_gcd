@@ -1,0 +1,5 @@
+#compdef gcd
+
+_files -W $GOPATH/src/github.com/tzmfreedom && return 0;
+return 1;
+

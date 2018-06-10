@@ -23,7 +23,7 @@ alias migrate_up='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:
 alias migrate_apply='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version; bin/rake db:migrate:up VERSION=$version'
 alias be='bundle exec'
 alias hb='hub browse'
-
+alias lli='/usr/local/opt/llvm/bin/lli'
 # for macOS
 if type "gdate" > /dev/null 2>&1; then
   alias date='gdate'
@@ -177,3 +177,21 @@ eval "$(direnv hook zsh)"
 [ -f /Users/m-tajitsu/.travis/travis.sh ] && source /Users/m-tajitsu/.travis/travis.sh
 
 alias op='/usr/bin/open -a "/Applications/Google Chrome.app"'
+
+function convert_uploadable_keynote_pdf() {
+  extension=${1##*.}
+
+  if [ $extension != "pdf" ]; then
+    echo 'Suffix needs to "pdf"' 1>&2
+
+    return 1
+  fi
+
+  if [ $# -eq 1 ]; then
+    bash -c "LANG=C LC_ALL=C sed -i 's|/Registry (Adobe) /Ordering (Japan1) /Supplement [0-9]|/Registry(Adobe) /Ordering(Identity) /Supplement 0|g' $1"
+  else
+    echo "usage: convert_uploadable_keynote_pdf pdf_path" 1>&2
+
+    return 1
+  fi
+}
