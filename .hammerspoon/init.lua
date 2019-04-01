@@ -33,7 +33,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
 end)
 
 hs.hotkey.bind({"alt"}, "J", function()
-  hs.application.launchOrFocus("IntelliJ IDEA 15")
+  hs.application.launchOrFocus("IntelliJ IDEA")
 end)
 
 hs.hotkey.bind({"alt"}, "E", function()

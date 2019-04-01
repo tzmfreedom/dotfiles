@@ -32,11 +32,6 @@ set noerrorbells
 
 set clipboard+=unnamed
 
-nnoremap <Leader>l :EvervimNotebookList<CR>
-nnoremap <Leader>s :EvervimSearchByQuery<Space>
-nnoremap <Leader>c :EvervimCreateNote<CR>
-nnoremap <Leader>t :EvervimListTags<CR>
-
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 if has('vim_starting')
@@ -77,8 +72,6 @@ if has('vim_starting')
   
   NeoBundle 'marcus/rsense'
   NeoBundle 'tpope/vim-surround'
-  
-  NeoBundle 'kakkyz81/evervim'
 
   NeoBundle 'kannokanno/previm'
 

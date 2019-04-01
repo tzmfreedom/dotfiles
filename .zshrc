@@ -24,6 +24,11 @@ alias migrate_apply='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake 
 alias be='bundle exec'
 alias hb='hub browse'
 alias lli='/usr/local/opt/llvm/bin/lli'
+alias mvim=/Applications/MacVim.app/Contents/bin/mvim "$@"
+
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+
 # for macOS
 if type "gdate" > /dev/null 2>&1; then
   alias date='gdate'
@@ -195,3 +200,18 @@ function convert_uploadable_keynote_pdf() {
     return 1
   fi
 }
+export PATH="$HOME/.rbenv/bin:$PATH"
+
+eval "$(rbenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+eval "$(pyenv virtualenv-init -)"
+
+export PATH="$HOME/.phpenv/bin:$PATH"
+eval "$(phpenv init -)"
+
+export PATH="$HOME/.local/bin:$PATH"
+
