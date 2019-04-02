@@ -68,8 +68,12 @@ if type hub > /dev/null 2>&1; then
   brew install hub
 fi
 
-if type colordiff > /dev/null 2&1; then
+if type colordiff > /dev/null 2>&1; then
   brew install colordiff
+fi
+
+if type gdate > /dev/null 2>&1; then
+  brew install coreutils
 fi
 
 # install dotfiles

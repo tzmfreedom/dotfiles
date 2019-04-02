@@ -210,6 +210,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 eval "$(pyenv virtualenv-init -)"
 
+if type colordiff > /dev/null 2>&1; then
+  alias diff="colordiff"
+fi
+
 export PATH="$HOME/.phpenv/bin:$PATH"
 eval "$(phpenv init -)"
 
