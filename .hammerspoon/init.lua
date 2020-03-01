@@ -36,6 +36,10 @@ hs.hotkey.bind({"alt"}, "J", function()
   hs.application.launchOrFocus("IntelliJ IDEA")
 end)
 
+hs.hotkey.bind({"alt", "shift"}, "J", function()
+  hs.application.launchOrFocus("Visual Studio Code")
+end)
+
 hs.hotkey.bind({"alt"}, "E", function()
   hs.application.launchOrFocus("Evernote")
 end)
