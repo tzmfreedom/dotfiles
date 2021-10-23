@@ -4,26 +4,17 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+alias gpr='gh pr view -w $(git branch --show-current)'
 alias pass="lpass ls | peco | sed -E 's/(.+)\[id\:(.*)$/\1/g' | sed -e 's/(none)\///g' | xargs lpass show --password | pbcopy"
 alias decode_uri='nkf -w --url-input'
 alias encode_uri='nkf -WwMQ | tr = %'
 alias history_all='history 1'
-alias gist_cat='gist -r $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
-alias gist_copy='gist -P $(gist -l tzmfreedom | peco | awk "{ print \$1 }" | sed -e "s@https://gist.github.com/@@g")'
 alias gco='git checkout $(git branch | peco | sed -e "s/*//g")'
-alias templ='find ~/templates -type f | peco | xargs cat'
 alias gd='git diff HEAD~1..HEAD'
 alias edit_zshrc='vim ~/.zshrc'
 alias source_zshrc='source ~/.zshrc'
 alias untargz='tar zxf'
 alias targz='tar zcf'
-alias migrate_down='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version'
-alias migrate_up='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:up VERSION=$version'
-alias migrate_apply='version=$(ls db/migrate | peco | cut -d "_" -f1); bin/rake db:migrate:down VERSION=$version; bin/rake db:migrate:up VERSION=$version'
-alias be='bundle exec'
-alias hb='hub browse'
-alias lli='/usr/local/opt/llvm/bin/lli'
 alias mvim=/Applications/MacVim.app/Contents/bin/mvim "$@"
 
 bindkey '^[[1;3C' forward-word
@@ -65,19 +56,6 @@ function search() {
   BUFFER=$(history -n 1 | peco --query ${1:-${LBUFFER}})
   CUSOR=${#BUFFER}
 }
-
-function speco() {
-  file=$(find spec -type f | grep spec.rb | peco --query "${1:-$LBUFFER}")
-  echo "bundle exec rspec ${file}"
-  bundle exec rspec ${file}
-  zle reset-prompt
-}
-
-function respeco() {
-  echo "bundle exec rspec ${file}"
-  bundle exec rspec ${file}
-}
-
 
 # zle -N fuga
 # bindkey '^Z' fuga
@@ -176,7 +154,6 @@ colors
 
 PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%{${fg[cyan]}%}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)%{${fg[magenta]}%} [%T]%{${reset_color}%}${editor_info[keymap]} '
 export LSCOLORS=cxfxcxdxbxegedabagacad
-eval "$(direnv hook zsh)"
 
 # added by travis gem
 [ -f /Users/m-tajitsu/.travis/travis.sh ] && source /Users/m-tajitsu/.travis/travis.sh
@@ -200,22 +177,37 @@ function convert_uploadable_keynote_pdf() {
     return 1
   fi
 }
-export PATH="$HOME/.rbenv/bin:$PATH"
-
-eval "$(rbenv init -)"
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-eval "$(pyenv virtualenv-init -)"
 
 if type colordiff > /dev/null 2>&1; then
   alias diff="colordiff"
 fi
 
-export PATH="$HOME/.phpenv/bin:$PATH"
-eval "$(phpenv init -)"
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.anyenv/bin:$PATH"
+eval "$(anyenv init -)"
+
+# For PHP Build
+export PATH="/usr/local/opt/bison/bin:$PATH"
+export PATH="/usr/local/opt/libxml2/bin:$PATH"
+export PATH="/usr/local/opt/bzip2/bin:$PATH"
+export PATH="/usr/local/opt/curl/bin:$PATH"
+export PATH="/usr/local/opt/libiconv/bin:$PATH"
+export PATH="/usr/local/opt/krb5/bin:$PATH"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PKG_CONFIG_PATH="/usr/local/opt/krb5/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+export PHP_RPATHS="/usr/local/opt/zlib/lib /usr/local/opt/bzip2/lib /usr/local/opt/curl/lib /usr/local/opt/libiconv/lib /usr/local/opt/libedit/lib"
+export PHP_BUILD_CONFIGURE_OPTS="--with-zlib-dir=/usr/local/opt/zlib --with-bz2=/usr/local/opt/bzip2 --with-curl=/usr/local/opt/curl --with-iconv=/usr/local/opt/libiconv --with-libedit=/usr/local/opt/libedit"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
 
