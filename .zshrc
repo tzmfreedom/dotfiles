@@ -211,3 +211,42 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
+color-ssh() {
+    trap _color-ssh INT EXIT
+    if [[ "$*" =~ "prod" ]]; then
+        _color-ssh prod
+    elif [[ "$*" =~ "dev" ]]; then
+        _color-ssh dev
+    else
+        _color-ssh other
+    fi
+    echo "$*"
+    command ssh "$*"
+}
+
+_color-ssh() {
+  if [[ "$TERM" == "screen"* ]] && [[ -n "$TMUX" ]]; then
+    if [[ "$1" == "prod" ]]; then
+      tmux select-pane -P 'bg=#331C1F'
+    elif [[ "$1" == "dev" ]]; then
+      tmux select-pane -P 'bg=#192436'
+    elif [[ "$1" == "other" ]]; then
+      tmux select-pane -P 'bg=#253320'
+    else
+      tmux select-pane -P 'bg=#000000'
+    fi;
+  else
+    if [[ "$1" == "prod" ]]; then
+      printf '\033]11;#331C1F\007'
+    elif [[ "$1" == "dev" ]]; then
+      printf '\033]11;#192436\007'
+    elif [[ "$1" == "other" ]]; then
+      printf '\033]11;#253320\007'
+    else
+      printf '\033]11;#000000\007'
+    fi
+  fi
+}
+
+compdef _ssh color-ssh=ssh
+alias ssh=color-ssh
