@@ -24,10 +24,6 @@ remapKey({ 'ctrl' }, ']',  keyCodeSet({
     keyCode(";", {'ctrl', 'shift'}),
 }))
 
-hs.urlevent.bind("someAlert", function(eventName, params)
-    hs.alert.show("Received someAlert")
-end)
-
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
   hs.reload()
 end)
@@ -40,16 +36,8 @@ hs.hotkey.bind({"alt", "shift"}, "J", function()
   hs.application.launchOrFocus("Visual Studio Code")
 end)
 
-hs.hotkey.bind({"alt"}, "E", function()
-  hs.application.launchOrFocus("Evernote")
-end)
-
 hs.hotkey.bind({"alt"}, "C", function()
   hs.application.launchOrFocus("Google Chrome")
-end)
-
-hs.hotkey.bind({"alt"}, "L", function()
-  hs.application.launchOrFocus("LINE")
 end)
 
 hs.hotkey.bind({"alt"}, "S", function()
