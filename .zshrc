@@ -3,14 +3,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-alias pass="lpass ls | peco | sed -E 's/(.+)\[id\:(.*)$/\1/g' | sed -e 's/(none)\///g' | xargs lpass show --password | pbcopy"
 alias decode_uri='nkf -w --url-input'
 alias encode_uri='nkf -WwMQ | tr = %'
-alias history_all='history 1'
 alias gco='git checkout $(git branch | peco | sed -e "s/*//g")'
-alias gd='git diff HEAD~1..HEAD'
-alias edit_zshrc='vim ~/.zshrc'
-alias source_zshrc='source ~/.zshrc'
 alias untargz='tar zxf'
 alias targz='tar zcf'
 alias mvim=/Applications/MacVim.app/Contents/bin/mvim "$@"
@@ -31,13 +26,6 @@ if type "gsed" > /dev/null 2>&1; then
   alias sed='gsed'
 fi
 
-function login_sf() {
-  username=$(lpass show --username $1)
-  password=$(lpass show --password $1)
-  url=$(lpass show --url $1)
-  /usr/bin/open -a "/Applications/Google Chrome.app" "${url}/?un=${username}&pw=${password}"
-}
-
 function diff_stdin() {
   echo "input file1: if you want to end your input, press Ctrl+D"
   diff1=$(cat)
@@ -55,32 +43,10 @@ function search() {
   CUSOR=${#BUFFER}
 }
 
-# zle -N fuga
-# bindkey '^Z' fuga
-
-bindkey '^[[1;3C' forward-word
-bindkey '^[[1;3D' backward-word
-
-function row2col() {
-  echo "please input row data and Ctrl+D to end your input"
-  str=""
-  while read line
-  do
-    str=$(printf ${str}"${1:-,}"${line})
-  done
-  print ${str:1}
-}
-
-alias row2col="cat | tr '\n' ',' | sed -e 's/.$//g'"
-alias row2col_dq='echo \"$(cat | perl -pe "s/\n/\",\"/g" | sed -e "s/..$//g")\"'
-
 alias tmux_new='tmux new-session \; source-file ~/.tmux/new-session'
 alias sha1='openssl dgst -sha1'
 alias sha256='openssl dgst -sha256'
 alias md5='openssl dgst -md5'
-
-alias csv2redmine='tr "," "|" | sed -e "s/^/|/g" -e "s/$/|/g"'
-alias csv2redmine_tab='tr "\t" "|" | sed -e "s/^/|/g" -e "s/$/|/g"'
 
 function killer() {
   pid=$(ps aux | grep "$1" | peco | awk '{ print $2 }')
@@ -96,13 +62,6 @@ fi
 
 export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
 export PATH="/Users/$(whoami)/Library/Application Support/JetBrains/Toolbox/scripts:$PATH"
-
-reload_completion() {
-  local f
-  f=(/usr/local/share/zsh/site-functions/*(.))
-  unfunction $f:t 2> /dev/null
-  autoload -U $f:t
-}
 
 if type go > /dev/null 2>&1; then
   export GOPATH="$HOME/dev"
@@ -154,11 +113,6 @@ colors
 PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%{${fg[cyan]}%}${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)%{${fg[magenta]}%} [%T]%{${reset_color}%}${editor_info[keymap]} '
 export LSCOLORS=cxfxcxdxbxegedabagacad
 
-# added by travis gem
-[ -f /Users/m-tajitsu/.travis/travis.sh ] && source /Users/m-tajitsu/.travis/travis.sh
-
-alias op='/usr/bin/open -a "/Applications/Google Chrome.app"'
-
 function convert_uploadable_keynote_pdf() {
   extension=${1##*.}
 
@@ -180,7 +134,6 @@ function convert_uploadable_keynote_pdf() {
 if type colordiff > /dev/null 2>&1; then
   alias diff="colordiff"
 fi
-
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
@@ -223,7 +176,7 @@ color-ssh() {
         _color-ssh other
     fi
     echo "$*"
-    command ssh "$*"
+    command ssh $*
 }
 
 _color-ssh() {
