@@ -1,10 +1,8 @@
-# ulimit -n 65536
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-alias gpr='gh pr view -w $(git branch --show-current)'
 alias pass="lpass ls | peco | sed -E 's/(.+)\[id\:(.*)$/\1/g' | sed -e 's/(none)\///g' | xargs lpass show --password | pbcopy"
 alias decode_uri='nkf -w --url-input'
 alias encode_uri='nkf -WwMQ | tr = %'
@@ -96,7 +94,8 @@ if [ -d "${HOME}/.zsh" ]; then
   done
 fi
 
-export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
+export PATH="/Users/$(whoami)/Library/Application Support/JetBrains/Toolbox/scripts:$PATH"
 
 reload_completion() {
   local f
@@ -147,7 +146,7 @@ function git_push() {
 zle -N git_push git_push
 bindkey '^G^P' git_push
 
-export PATH=/usr/local/opt/openssl/bin:$PATH
+export PATH=/opt/homebrew/opt/openssl/bin:$PATH
 
 autoload -Uz colors
 colors
@@ -188,20 +187,23 @@ export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
 
 # For PHP Build
-export PATH="/usr/local/opt/bison/bin:$PATH"
-export PATH="/usr/local/opt/libxml2/bin:$PATH"
-export PATH="/usr/local/opt/bzip2/bin:$PATH"
-export PATH="/usr/local/opt/curl/bin:$PATH"
-export PATH="/usr/local/opt/libiconv/bin:$PATH"
-export PATH="/usr/local/opt/krb5/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PKG_CONFIG_PATH="/usr/local/opt/krb5/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PATH="/opt/homebrew/opt/bison/bin:$PATH"
+export PATH="/opt/homebrew/opt/libxml2/bin:$PATH"
+export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+export PATH="/opt/homebrew/opt/libiconv/bin:$PATH"
+export PATH="/opt/homebrew/opt/krb5/bin:$PATH"
+export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
+export PATH="/opt/homebrew/opt/icu4c/bin:$PATH"
+export PATH="/opt/homebrew/opt/tidy-html5/lib:$PATH"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/krb5/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/jpeg/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/tidy-html5/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-export PHP_RPATHS="/usr/local/opt/zlib/lib /usr/local/opt/bzip2/lib /usr/local/opt/curl/lib /usr/local/opt/libiconv/lib /usr/local/opt/libedit/lib"
-export PHP_BUILD_CONFIGURE_OPTS="--with-zlib-dir=/usr/local/opt/zlib --with-bz2=/usr/local/opt/bzip2 --with-curl=/usr/local/opt/curl --with-iconv=/usr/local/opt/libiconv --with-libedit=/usr/local/opt/libedit"
+export PHP_RPATHS="/opt/homebrew/opt/zlib/lib /opt/homebrew/opt/bzip2/lib /opt/homebrew/opt/curl/lib /opt/homebrew/opt/libiconv/lib /opt/homebrew/opt/libedit/lib"
+export PHP_BUILD_CONFIGURE_OPTS="--with-zlib-dir=$(brew --prefix zlib) --with-bz2=$(brew --prefix bzip2) --with-curl=$(brew --prefix curl) --with-iconv=$(brew --prefix libiconv) --with-libedit=$(brew --prefix libedit) --with-tidy=$(brew --prefix tidy-html5) --with-external-pcre=$(brew --prefix pcre2)"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
@@ -250,3 +252,36 @@ _color-ssh() {
 
 compdef _ssh color-ssh=ssh
 alias ssh=color-ssh
+
+function gpr() {
+  branch=$(git branch --show-current)
+  repository_path=$(git remote get-url origin | sed -e 's/.*github.com.\(.*\).git/\1/')
+  open "https://github.com/$repository_path/pull/$branch"
+}
+
+export PATH="/usr/local/go/bin:$PATH"
+
+function cf_log() {
+  group=$1
+  query=$2
+
+  aws --profile crmprod-dev \
+    logs filter-log-events \
+    --log-group-name "$group" \
+    --filter-pattern "$query" \
+    --start-time $(date --date "$start" "+%s")000 \
+    --end-time $(date "+%s")000 \
+    --output text \
+    --query 'sort_by(events, &timestamp)[].{message:message}'
+}
+
+function cf_log_tail() {
+  group=$1
+  start='1 day ago'
+
+  aws --profile crmprod-dev \
+    logs tail "$group" \
+    --follow \
+    --output text \
+    --query 'sort_by(events, &timestamp)[].{message:message}'
+}
