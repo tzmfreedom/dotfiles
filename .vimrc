@@ -48,44 +48,6 @@ if has('vim_starting')
  " Required:
  NeoBundleFetch 'Shougo/neobundle.vim'
 
- " My Bundles here:
- " Refer to |:NeoBundle-examples|.
- " Note: You don't set neobundle setting in .gvimrc!
- 
-
- "
- " ここに自分が欲しいモジュールを追記します。
- "
- 
-" ファイルをtree表示してくれる
-  NeoBundle 'scrooloose/nerdtree'
-  
-  NeoBundle 'tpope/vim-rails'
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'tpope/vim-endwise'
-  
-  NeoBundle 'Shougo/neocomplete.vim'
-  NeoBundle 'Shougo/neocomplcache.vim'
-  NeoBundle 'Shougo/neocomplcache-rsense.vim'
-  NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'Shougo/neomru.vim'
-  
-  NeoBundle 'marcus/rsense'
-  NeoBundle 'tpope/vim-surround'
-
-  NeoBundle 'kannokanno/previm'
-
-  NeoBundle 'mattn/emmet-vim'
-
-  NeoBundle 'terryma/vim-multiple-cursors'
-  
-  NeoBundle 'tomtom/tcomment_vim'
-
-  " NeoBundle 'nathanaelkane/vim-indent-guides'
-
-  " ログファイルを色づけしてくれる
-  NeoBundle 'vim-scripts/AnsiEsc.vim'
-
   " 行末の半角スペースを可視化
   NeoBundle 'bronson/vim-trailing-whitespace'
 
@@ -98,7 +60,7 @@ if has('vim_starting')
   " this will conveniently prompt you to install them.
   NeoBundleCheck
 
-set encoding=utf-8
+set encoding=utf-8 
 
 set fileformats=unix,dos,mac
 
@@ -111,63 +73,6 @@ set softtabstop=2
 
 set autoindent
 
-let g:acp_enableAtStartup = 0
-
-let g:neocomplcache_enable_at_startup = 1
-
-let g:neocomplcache_enable_smart_case = 1
-
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-"rsenseのインストールフォルダがデフォルトと異なるので設定
-let g:rsenseHome = expand("/Users/mtajitsu/.rbenv/shims/rsense")
-let g:rsenseUseOmniFunc = 1
-
-
-if !exists('g:loaded_matchit')
-  runtime macros/matchit.vim
-endif
-
-let g:previm_open_cmd = 'open -a "Google Chrome"'
-let g:user_emmet_settings = {
-      \ 'variables' : {
-      \  'lang' : "ja"
-      \ }
-      \}
-
-" http://blog.remora.cx/2010/12/vim-ref-with-unite.html
-""""""""""""""""""""""""""""""
-" Unit.vimの設定
-""""""""""""""""""""""""""""""
-" 入力モードで開始する
-let g:unite_enable_start_insert=1
-" バッファ一覧
-noremap <C-P> :Unite buffer<CR>
-" ファイル一覧
-noremap <C-N> :Unite -buffer-name=file file<CR>
-" 最近使ったファイルの一覧
-noremap <C-Z> :Unite file_mru<CR>
-" sourcesを「今開いているファイルのディレクトリ」とする
-noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-" ウィンドウを分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-" ウィンドウを縦に分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 """"""""""""""""""""""""""""""
 
 " vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
