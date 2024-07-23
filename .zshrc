@@ -60,7 +60,6 @@ if [ -d "${HOME}/.zsh" ]; then
   done
 fi
 
-export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
 export PATH="/Users/$(whoami)/Library/Application Support/JetBrains/Toolbox/scripts:$PATH"
 
 if type go > /dev/null 2>&1; then
@@ -140,23 +139,23 @@ export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
 
 # For PHP Build
-export PATH="/opt/homebrew/opt/bison/bin:$PATH"
-export PATH="/opt/homebrew/opt/libxml2/bin:$PATH"
-export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
-export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-export PATH="/opt/homebrew/opt/libiconv/bin:$PATH"
-export PATH="/opt/homebrew/opt/krb5/bin:$PATH"
-export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
-export PATH="/opt/homebrew/opt/icu4c/bin:$PATH"
-export PATH="/opt/homebrew/opt/tidy-html5/lib:$PATH"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/krb5/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/jpeg/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/tidy-html5/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PATH="$(brew --prefix bison)/bin:$PATH"
+export PATH="$(brew --prefix libxml2)/bin:$PATH"
+export PATH="$(brew --prefix bzip2)/bin:$PATH"
+export PATH="$(brew --prefix curl)/bin:$PATH"
+export PATH="$(brew --prefix libiconv)/bin:$PATH"
+export PATH="$(brew --prefix krb5)/bin:$PATH"
+export PATH="$(brew --prefix openssl)/bin:$PATH"
+export PATH="$(brew --prefix icu4c)/bin:$PATH"
+export PATH="$(brew --prefix tidy-html5)/bin:$PATH"
+export PKG_CONFIG_PATH="$(brew --prefix krb5)/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="$(brew --prefix jpeg)/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="$(brew --prefix tidy-html5)/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-export PHP_RPATHS="/opt/homebrew/opt/zlib/lib /opt/homebrew/opt/bzip2/lib /opt/homebrew/opt/curl/lib /opt/homebrew/opt/libiconv/lib /opt/homebrew/opt/libedit/lib"
-export PHP_BUILD_CONFIGURE_OPTS="--with-zlib-dir=$(brew --prefix zlib) --with-bz2=$(brew --prefix bzip2) --with-curl=$(brew --prefix curl) --with-iconv=$(brew --prefix libiconv) --with-libedit=$(brew --prefix libedit) --with-tidy=$(brew --prefix tidy-html5) --with-external-pcre=$(brew --prefix pcre2)"
+export PHP_RPATHS="$(brew --prefix zlib)/lib $(brew --prefix bzip2)/lib $(brew --prefix curl)/lib $(brew --prefix libiconv)/lib $(brew --prefix libedit)/lib"
+export PHP_BUILD_CONFIGURE_OPTS="--with-zlib-dir=$(brew --prefix zlib) --with-bz2=$(brew --prefix bzip2) --with-curl=$(brew --prefix curl) --with-iconv=$(brew --prefix libiconv) --with-libedit=$(brew --prefix libedit) --with-tidy=$(brew --prefix tidy-html5) --with-external-pcre=$(brew --prefix pcre2) --with-jpeg-dir=$(brew --prefix jpeg) --with-png-dir=$(brew --prefix libpng) --with-mcrypt=$(brew --prefix libmcrypt)"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
@@ -169,6 +168,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 color-ssh() {
     trap _color-ssh INT EXIT
     if [[ "$*" =~ "prod" ]]; then
+        _color-ssh prod
+    elif [[ "$*" =~ "prd" ]]; then
         _color-ssh prod
     elif [[ "$*" =~ "dev" ]]; then
         _color-ssh dev
@@ -214,27 +215,18 @@ function gpr() {
 
 export PATH="/usr/local/go/bin:$PATH"
 
-function cf_log() {
-  group=$1
-  query=$2
 
-  aws --profile crmprod-dev \
-    logs filter-log-events \
-    --log-group-name "$group" \
-    --filter-pattern "$query" \
-    --start-time $(date --date "$start" "+%s")000 \
-    --end-time $(date "+%s")000 \
-    --output text \
-    --query 'sort_by(events, &timestamp)[].{message:message}'
-}
+function cflog() {
+  echo "log_group_name = $1, profile = $2, search_string = $3"
+  log_group_name=$1
+  profile=$2
+  search_string=$3
+  max_items=37
 
-function cf_log_tail() {
-  group=$1
-  start='1 day ago'
-
-  aws --profile crmprod-dev \
-    logs tail "$group" \
-    --follow \
-    --output text \
-    --query 'sort_by(events, &timestamp)[].{message:message}'
+  aws logs describe-log-streams --log-group-name $log_group_name --max-items $max_items --order-by LastEventTime --descending --profile $profile | \
+  jq '.logStreams[].logStreamName' | \
+  xargs aws logs filter-log-events --log-group-name $log_group_name --filter-pattern $search_string --log-stream-names --profile $profile | \
+  jq -r '.events[].message' | \
+  grep '{"' | \
+  jq -r "[.datetime,.message] | @tsv"
 }
