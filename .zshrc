@@ -60,6 +60,7 @@ if [ -d "${HOME}/.zsh" ]; then
   done
 fi
 
+export PATH="$(brew --prefix)/opt/gnu-getopt/bin:$PATH"
 export PATH="/Users/$(whoami)/Library/Application Support/JetBrains/Toolbox/scripts:$PATH"
 
 if type go > /dev/null 2>&1; then
@@ -104,7 +105,7 @@ function git_push() {
 zle -N git_push git_push
 bindkey '^G^P' git_push
 
-export PATH=/opt/homebrew/opt/openssl/bin:$PATH
+export PATH=$(brew --prefix)/opt/openssl/bin:$PATH
 
 autoload -Uz colors
 colors
@@ -137,25 +138,6 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
-
-# For PHP Build
-export PATH="$(brew --prefix bison)/bin:$PATH"
-export PATH="$(brew --prefix libxml2)/bin:$PATH"
-export PATH="$(brew --prefix bzip2)/bin:$PATH"
-export PATH="$(brew --prefix curl)/bin:$PATH"
-export PATH="$(brew --prefix libiconv)/bin:$PATH"
-export PATH="$(brew --prefix krb5)/bin:$PATH"
-export PATH="$(brew --prefix openssl)/bin:$PATH"
-export PATH="$(brew --prefix icu4c)/bin:$PATH"
-export PATH="$(brew --prefix tidy-html5)/bin:$PATH"
-export PKG_CONFIG_PATH="$(brew --prefix krb5)/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="$(brew --prefix jpeg)/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="$(brew --prefix tidy-html5)/lib/pkgconfig:$PKG_CONFIG_PATH"
-
-export PHP_RPATHS="$(brew --prefix zlib)/lib $(brew --prefix bzip2)/lib $(brew --prefix curl)/lib $(brew --prefix libiconv)/lib $(brew --prefix libedit)/lib"
-export PHP_BUILD_CONFIGURE_OPTS="--with-zlib-dir=$(brew --prefix zlib) --with-bz2=$(brew --prefix bzip2) --with-curl=$(brew --prefix curl) --with-iconv=$(brew --prefix libiconv) --with-libedit=$(brew --prefix libedit) --with-tidy=$(brew --prefix tidy-html5) --with-external-pcre=$(brew --prefix pcre2) --with-jpeg-dir=$(brew --prefix jpeg) --with-png-dir=$(brew --prefix libpng) --with-mcrypt=$(brew --prefix libmcrypt)"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
