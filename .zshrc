@@ -5,7 +5,7 @@ fi
 
 alias decode_uri='nkf -w --url-input'
 alias encode_uri='nkf -WwMQ | tr = %'
-alias gco='git checkout $(git branch | peco | sed -e "s/*//g")'
+alias gco='git checkout $(git branch --sort=-committerdate | peco | sed -e "s/*//g")'
 alias untargz='tar zxf'
 alias targz='tar zcf'
 alias mvim=/Applications/MacVim.app/Contents/bin/mvim "$@"
@@ -98,7 +98,7 @@ bindkey '^r' peco-select-history
 
 function git_push() {
   current_branch=$(git branch | grep "*" | awk '{ print $2 }')
-  BUFFER="git push origin ${current_branch}"
+  BUFFER="git pushf origin ${current_branch}"
   CURSOR=$#BUFFER
 }
 

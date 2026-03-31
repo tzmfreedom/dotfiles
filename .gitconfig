@@ -12,4 +12,8 @@
           templatedir = ~/.git_template
 
 [url "ssh://git@github.com"]
-	insteadOf = https://github.com
+          insteadOf = https://github.com
+[rerere]
+	enabled = true
+[alias]
+	pushf = push --force-with-lease --force-if-includes

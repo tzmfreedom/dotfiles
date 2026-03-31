@@ -39,5 +39,5 @@ do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
 
-    ln -sb $(pwd)/$f ~/$f
+    ln -sf $(pwd)/$f ~/$f
 done
